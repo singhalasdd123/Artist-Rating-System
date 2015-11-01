@@ -1,0 +1,75 @@
+<?php
+session_start();
+if(isset($_SESSION['email']))
+{
+		$e2=$_SESSION['email'];
+		$id = $_GET['name'];
+        $em = $_GET['artist'];
+		$value=$_GET['value'];
+		require 'connection2.php';
+		$check=mysqli_query($con,"select * from `artist-table` where email1='$em'");
+		$row=mysqli_fetch_assoc($check);
+		$var1=$row['stage_presence'];
+		$c1=$row['count1'];
+		$var2=$row['e_o_s'];
+		$c2=$row['count2'];
+		$var3=$row['audience_engagement'];
+		$c3=$row['count3'];
+		$var4=$row['performance'];
+		$c4=$row['count4'];
+		$check=mysqli_query($con,"select * from `rated-table` where email2='$em' and email1='$e2'");
+		$row=mysqli_fetch_assoc($check);
+		$p1=$row['par1'];
+		$p2=$row['par2'];
+		$p3=$row['par3'];
+		$p4=$row['par4'];
+		$f1=$row['vis1'];
+		$f2=$row['vis2'];
+		$f3=$row['vis3'];
+		$f4=$row['vis4'];
+		if($value==1)
+		{
+			$ans=$var1*$c1;
+			$f=0;
+			if($f1==NULL)
+					$f=1;
+			$ans=($ans+$id-$p1)/($c1+$f);
+			$count=$c1+$f;
+			echo $ans;
+		}
+		if($value==2)
+		{
+		    $ans=$var2*$c2;
+			$f=0;
+			if($f2==0)
+					$f=1;
+			$ans=($ans+$id-$p2)/($c2+$f);
+			$count=$c2+$f;
+			echo $ans;
+		}
+		if($value==3)
+		{
+			 $ans=$var3*$c3;
+			$f=0;
+			if($f3==0)
+					$f=1;
+			$ans=($ans+$id-$p3)/($c3+$f);
+			$count=$c3+$f;
+			echo $ans;
+		}
+		if($value==4)
+		{
+			$ans=$var4*$c4;
+			$f=0;
+			if($f4==0)
+					$f=1;
+			$ans=($ans+$id-$p4)/($c4+$f);
+			$count=$c4+$f;
+			echo $ans;
+		}
+}
+else
+{
+	header('Location: login.php');
+}
+?>
